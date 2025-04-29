@@ -24,13 +24,18 @@
 
         /* Solo para vista previa en navegador */
         @media screen {
-            .container {
-                max-width: 21cm; /* Ancho A4 aproximado */
-                margin: 20px auto; /* Margen para centrar */
-                padding: 20px;
-                background: white;
-                box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            }
+        .container {
+            max-width: 80%; /* Reduje el ancho para que no ocupe toda la pantalla */
+            margin: 20px auto; /* Margen para centrar */
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Añade márgenes laterales en pantalla */
+        .schedule-page {
+            margin: 0 2cm; /* Márgenes izquierdo y derecho */
+        }
 
             .controls {
                 margin-bottom: 20px;
@@ -107,7 +112,7 @@
                 background: none;
                 padding: 0;
                 margin: 0;
-                font-size: 9pt;
+                font-size: 12pt;
             }
 
             .controls, .no-print {
@@ -143,24 +148,24 @@
             border: 1px solid #000;
             padding: 3px;
             text-align: center;
-            height: 20px;
+            height: 40px;
             overflow: hidden;
             word-wrap: break-word;
-            font-size: 7pt;
+            font-size: 11pt;
         }
 
         .schedule th {
             background-color: #2c3e50;
             color: white;
             font-weight: bold;
-            font-size: 8pt;
+            font-size: 11pt;
         }
 
         .time-col {
             background-color: #f2f2f2;
             font-weight: bold;
             width: 12%;
-            font-size: 8pt;
+            font-size: 11pt;
         }
 
         .editable {
