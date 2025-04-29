@@ -15,10 +15,7 @@
 
         @page {
             size: A4;
-            margin-top: 2cm;
-            margin-bottom: 2cm;
-            margin-left: 1.5cm;
-            margin-right: 1.5cm;
+            margin: 0.5cm;
         }
 
         /* Solo para vista previa en navegador */
@@ -106,69 +103,64 @@
                 background: none;
                 padding: 0;
                 margin: 0;
-                font-size: 10pt;
+                font-size: 9pt;
             }
 
             .controls, .no-print {
                 display: none !important;
             }
 
-             .schedule-page {
-                 page-break-inside: avoid;
+            .schedule-page {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
             }
-            .schedule-container {
-                 page-break-inside: avoid;
-                 margin-bottom: 1cm;
-            }
-            .schedule-page > .schedule-container:first-child {
-                 page-break-after: always;
-            }
-             .schedule-page > .schedule-container:last-child {
-                 page-break-after: avoid;
-             }
 
-            .header-fields input {
-                 border: none;
-                 padding: 0;
-                 margin-left: 3px;
-                 background: none;
+            .schedule-container {
+                width: 100%;
+                margin-bottom: 0.5cm;
+                page-break-inside: avoid;
+            }
+
+            .schedule-container:nth-child(2) {
+                margin-top: 0.5cm;
             }
         }
 
         /* Estilos comunes */
         .schedule {
             width: 100%;
-            margin-bottom: 1.5cm;
             border-collapse: collapse;
             table-layout: fixed;
+            margin-top: 0.3cm;
         }
 
         .schedule th, .schedule td {
             border: 1px solid #000;
-            padding: 4px;
+            padding: 3px;
             text-align: center;
-            height: 24px;
+            height: 20px;
             overflow: hidden;
             word-wrap: break-word;
-            font-size: 8pt; /* Ajustado para más contenido vertical */
+            font-size: 7pt;
         }
 
         .schedule th {
             background-color: #2c3e50;
             color: white;
             font-weight: bold;
-            font-size: 9pt;
+            font-size: 8pt;
         }
 
         .time-col {
             background-color: #f2f2f2;
             font-weight: bold;
             width: 12%;
-            font-size: 9pt;
+            font-size: 8pt;
         }
 
         .editable {
-            min-height: 24px;
+            min-height: 20px;
              background-color: #ffffff;
         }
         @media screen {
@@ -188,25 +180,25 @@
 
         .header-info {
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 5px;
             position: relative;
-            padding-top: 10px;
+            padding-top: 5px;
         }
 
         .school-name {
-            font-size: 12pt;
+            font-size: 10pt;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
 
         .header-fields {
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px 20px;
-            font-size: 9pt;
+            gap: 5px 10px;
+            font-size: 8pt;
         }
 
         .header-fields label {
@@ -216,16 +208,16 @@
         }
 
         .header-fields input {
-            padding: 4px 8px;
-            margin-left: 5px;
+            padding: 2px 4px;
+            margin-left: 3px;
             border: 1px solid #ddd;
-            border-radius: 3px;
+            border-radius: 2px;
             font-size: inherit;
-            max-width: 150px;
+            max-width: 120px;
         }
 
         .logo {
-            height: 1.8cm;
+            height: 1.2cm;
             width: auto;
             position: absolute;
             left: 0;
@@ -235,12 +227,8 @@
         .header-content {
              display: inline-block;
              text-align: center;
-             width: calc(100% - 4cm);
+             width: calc(100% - 3cm);
              margin: 0 auto;
-        }
-
-         .schedule-container {
-            margin-bottom: 1.5cm;
         }
 
     </style>
@@ -254,7 +242,8 @@
         </div>
 
         <div class="schedule-page">
-            <div class="schedule-container" id="schedule1-container"> <div class="header-info">
+            <div class="schedule-container" id="schedule1-container"> 
+                <div class="header-info">
                     <img src="sello.jpg" alt="Sello" class="logo logo-left" onerror="this.style.display='none'">
                     <div class="header-content">
                         <div class="school-name">Unidad Educativa Dr. Camilo Gallegos Domínguez</div>
@@ -266,7 +255,8 @@
                     </div>
                 </div>
 
-                <table class="schedule" id="scheduleTable1"> <thead>
+                <table class="schedule" id="scheduleTable1"> 
+                    <thead>
                         <tr>
                             <th>Hora</th>
                             <th>Lunes</th>
@@ -288,19 +278,21 @@
                 </table>
             </div>
 
-            <div class="schedule-container" id="schedule2-container"> <div class="header-info">
+            <div class="schedule-container" id="schedule2-container"> 
+                <div class="header-info">
                     <img src="sello.jpg" alt="Sello" class="logo logo-left" onerror="this.style.display='none'">
                     <div class="header-content">
                         <div class="school-name">Unidad Educativa Dr. Camilo Gallegos Domínguez</div>
                     </div>
                     <div class="header-fields">
-                         <label>Curso: <input type="text" id="grade2" placeholder="Ej: 8vo 'B'"></label>
+                        <label>Curso: <input type="text" id="grade2" placeholder="Ej: 8vo 'B'"></label>
                         <label>Periodo: <input type="text" id="period2" value="2025-2026"></label>
                         <label>Tutor/a: <input type="text" id="tutor2" placeholder="Nombre del tutor/a"></label>
                     </div>
                 </div>
 
-                <table class="schedule" id="scheduleTable2"> <thead>
+                <table class="schedule" id="scheduleTable2"> 
+                    <thead>
                         <tr>
                             <th>Hora</th>
                             <th>Lunes</th>
@@ -311,23 +303,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                         <tr><td class="time-col">07:00 - 07:45</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
+                        <tr><td class="time-col">07:00 - 07:45</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                         <tr><td class="time-col">07:45 - 08:30</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                         <tr><td class="time-col">08:30 - 09:15</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
-                          <tr class="recess-row"><td class="time-col">09:15 - 09:45</td><td colspan="5">RECESO</td></tr>
+                        <tr class="recess-row"><td class="time-col">09:15 - 09:45</td><td colspan="5">RECESO</td></tr>
                         <tr><td class="time-col">09:45 - 10:30</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                         <tr><td class="time-col">10:30 - 11:15</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                         <tr><td class="time-col">11:15 - 12:00</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                     </tbody>
                 </table>
             </div>
-        </div> <div id="savedSchedulesArea" class="no-print">
+        </div>
+        
+        <div id="savedSchedulesArea" class="no-print">
             <h2>Horarios Guardados (Matutino)</h2>
             <div id="savedSchedulesList">
                 </div>
         </div>
+    </div>
 
-    </div> <script>
+    <script>
         // Clave única para este horario (matutino)
         const STORAGE_KEY = 'schoolSchedulesMorning_savedData';
 
@@ -478,12 +473,10 @@
 
         function clearEditor() {
             document.getElementById('grade1').value = '';
-            document.getElementById('period1').value = '2025-2026'; // Mantener valor por defecto o limpiar? Limpiemos.
-            document.getElementById('period1').value = '';
+            document.getElementById('period1').value = '2025-2026';
             document.getElementById('tutor1').value = '';
             document.getElementById('grade2').value = '';
             document.getElementById('period2').value = '2025-2026';
-            document.getElementById('period2').value = '';
             document.getElementById('tutor2').value = '';
 
              document.querySelectorAll('.editable[contenteditable="true"]').forEach(el => {
@@ -496,7 +489,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             displaySavedSchedules();
         });
-
     </script>
 </body>
 </html>
