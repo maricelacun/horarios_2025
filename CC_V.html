@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horarios Escolares A4 - Vespertino 2 (Guardado Local)</title> <style>
+    <title>Horarios Escolares A4 - Matutino</title>
+    <style>
         /* Estilos generales */
         body {
             font-family: 'Arial', sans-serif;
@@ -15,22 +16,20 @@
         @page {
             size: A4;
             margin-top: 2cm;
-            margin-bottom: 2cm;
+            margin-bottom: 3cm;
             margin-left: 1.5cm;
             margin-right: 1.5cm;
         }
-
         /* Solo para vista previa en navegador */
         @media screen {
             .container {
-                max-width: 21cm; /* Ancho A4 aproximado */
-                margin: 20px auto; /* Margen para centrar */
+                max-width: 21cm;
+                margin: 20px auto;
                 padding: 20px;
                 background: white;
                 box-shadow: 0 0 10px rgba(0,0,0,0.1);
             }
 
-            /* --- Estilos para Controles y Lista Guardada (Copiados de la solución anterior) --- */
             .controls {
                 margin-bottom: 20px;
                 padding: 15px;
@@ -41,63 +40,22 @@
 
             .controls button {
                 padding: 8px 15px;
-                background: #4CAF50;
                 color: white;
                 border: none;
                 border-radius: 4px;
                 cursor: pointer;
                 margin: 5px;
+                font-weight: bold;
             }
 
-             .controls button.delete-btn {
-                 background-color: #f44336;
-             }
-             .controls button.delete-btn:hover {
-                 background-color: #da190b;
-             }
-             .controls button.load-btn {
-                 background-color: #2196F3;
-             }
-            .controls button.load-btn:hover {
-                 background-color: #0b7dda;
-             }
+            .save-btn { background: #4CAF50; }
+            .print-btn { background: #2196F3; }
+            .delete-btn { background: #f44336; }
+            .load-btn { background: #FF9800; }
 
             .controls button:hover {
-                background: #45a049;
+                opacity: 0.9;
             }
-
-            #savedSchedulesArea {
-                margin-top: 30px;
-                padding: 15px;
-                background: #e9ecef;
-                border-radius: 5px;
-            }
-            #savedSchedulesArea h2 {
-                text-align: center;
-                margin-top: 0;
-                color: #343a40;
-            }
-            #savedSchedulesList div {
-                background: white;
-                padding: 10px;
-                margin-bottom: 10px;
-                border-radius: 4px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            }
-             #savedSchedulesList span {
-                font-weight: bold;
-                flex-grow: 1;
-                margin-right: 10px;
-             }
-            #savedSchedulesList button {
-                padding: 5px 10px;
-                font-size: 0.9em;
-                margin-left: 5px;
-            }
-             /* --- Fin de estilos copiados --- */
         }
 
         /* Estilos para impresión */
@@ -106,73 +64,72 @@
                 background: none;
                 padding: 0;
                 margin: 0;
-                font-size: 10pt;
             }
 
             .controls, .no-print {
                 display: none !important;
             }
 
-             /* Ajustes de impresión (iguales a los anteriores) */
-             .schedule-page {
-                 page-break-inside: avoid;
-            }
-            .schedule-container {
-                 page-break-inside: avoid;
-                 margin-bottom: 1cm;
-            }
-            .schedule-page > .schedule-container:first-child {
-                 page-break-after: always;
-            }
-             .schedule-page > .schedule-container:last-child {
-                 page-break-after: avoid;
-             }
-
-            .header-fields input {
-                 border: none;
-                 padding: 0;
-                 margin-left: 3px;
-                 background: none;
+            .schedule-page {
+                height: 100%;
             }
         }
 
-        /* Estilos comunes */
+        /* Estructura principal */
+        .schedule-page {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5cm;
+        }
+
+        /* Estilos de los horarios */
+        .schedule-container {
+            page-break-inside: avoid;
+            margin-bottom: 0.3cm;
+        }
+
         .schedule {
             width: 100%;
-            margin-bottom: 1.5cm;
             border-collapse: collapse;
             table-layout: fixed;
+            font-size: 10pt;
+            margin-top: 0.2cm;
         }
 
         .schedule th, .schedule td {
             border: 1px solid #000;
-            padding: 4px;
+            padding: 3px;
             text-align: center;
-            height: 24px;
+            height: 30px;
             overflow: hidden;
             word-wrap: break-word;
-            font-size: 8pt;
         }
 
         .schedule th {
             background-color: #2c3e50;
             color: white;
             font-weight: bold;
-            font-size: 9pt;
+            font-size: 11pt;
         }
 
+        /* Columna de hora más angosta */
         .time-col {
-            background-color: #f2f2f2;
+            background-color: #f5f5f5;
             font-weight: bold;
-            width: 12%;
-            font-size: 9pt;
+            width: 8%;
+            font-size: 11pt;
+        }
+
+        /* Columnas de días más anchas */
+        .schedule td:not(.time-col) {
+            width: 18.4%; /* (100% - 8%) / 5 */
         }
 
         .editable {
-            min-height: 24px;
+            min-height: 20px;
             background-color: #ffffff;
         }
-        /* Estilos hover/focus para editables */
+
         @media screen {
             .editable[contenteditable="true"]:hover {
                 background-color: #e8f0fe;
@@ -183,33 +140,32 @@
             }
         }
 
-
         .recess-row td {
             background-color: #fffacd;
             font-style: italic;
         }
 
+        /* Encabezado */
         .header-info {
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 5px;
             position: relative;
-            padding-top: 10px;
         }
 
         .school-name {
             font-size: 12pt;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 3px;
+            text-transform: uppercase;
         }
 
         .header-fields {
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin: 5px 0;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px 20px;
-            font-size: 9pt;
+            gap: 5px 15px;
+            font-size: 11pt;
         }
 
         .header-fields label {
@@ -219,16 +175,16 @@
         }
 
         .header-fields input {
-            padding: 4px 8px;
-            margin-left: 5px;
+            padding: 2px 4px;
+            margin-left: 3px;
             border: 1px solid #ddd;
-            border-radius: 3px;
+            border-radius: 2px;
             font-size: inherit;
-            max-width: 150px;
+            width: 100px;
         }
 
         .logo {
-            height: 1.8cm;
+            height: 1cm;
             width: auto;
             position: absolute;
             left: 0;
@@ -236,17 +192,371 @@
         }
 
         .header-content {
-             display: inline-block;
-             text-align: center;
-             width: calc(100% - 4cm);
-             margin: 0 auto;
+            display: inline-block;
+            text-align: center;
+            width: calc(100% - 2cm);
         }
 
-         .schedule-container {
-            margin-bottom: 1.5cm;
+        /* Lista de horarios guardados */
+        #savedSchedulesArea {
+            margin-top: 30px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 5px;
+        }
+
+        #savedSchedulesArea h2 {
+            text-align: center;
+            margin-top: 0;
+            color: #343a40;
+        }
+
+        #savedSchedulesList div {
+            background: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #savedSchedulesList span {
+            font-weight: bold;
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        #savedSchedulesList button {
+            padding: 5px 10px;
+            font-size: 0.9em;
+            margin-left: 5px;
         }
     </style>
 </head>
+<body>
+    <div class="container">
+        <!-- Controles solo para pantalla -->
+        <div class="controls no-print">
+            <div style="margin-top: 10px;">
+                <button onclick="updateHeaders()">Actualizar</button>
+                <button onclick="saveAllData()">Guardar Horario</button>
+                <button onclick="loadSavedData()">Cargar Horario</button>
+                <button onclick="window.print()">Imprimir/PDF</button>
+                <button onclick="clearAll()">Limpiar</button>
+            </div>
+        </div>
+        
+        <!-- Contenedor para impresión A4 -->
+        <div class="schedule-page">
+            <div class="double-schedule">
+                <!-- Primer horario -->
+                <div class="schedule-container">
+                    <div class="header-info">
+                        <img src="sello.jpg" alt="Sello" class="logo logo-left">
+                        <div class="header-content">
+                            <div class="school-name">Unidad Educativa Dr. Camilo Gallegos Domínguez</div>
+                        </div>
+                        <div class="header-fields">
+                            <label>Curso: <input type="text" id="grade" placeholder="Ej: 10mo 'A'"></label>
+                            <label>Periodo: <input type="text" id="period" value="2025-2026"></label>
+                            <label>Tutor: <input type="text" id="tutor" placeholder="Nombre del tutor"></label>
+                        </div>
+                    </div>
+                    
+                    <table class="schedule" id="schedule1">
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Lunes</th>
+                                <th>Martes</th>
+                                <th>Miércoles</th>
+                                <th>Jueves</th>
+                                <th>Viernes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="time-col">07:00 - 07:40</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">07:40 - 08:20</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">08:20 - 09:00</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">09:00 - 09:40</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr class="recess-row">
+                                <td class="time-col">09:40 - 10:10</td>
+                                <td colspan="5">RECESO</td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">10:10 - 10:50</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">10:50 - 11:30</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">11:30 - 12:10</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">12:10 - 12:50</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Segundo horario -->
+                <div class="schedule-container">
+                    <div class="header-info">
+                       <img src="sello.jpg" alt="Sello" class="logo logo-left">
+                        <div class="header-content">
+                            <div class="school-name">Unidad Educativa Dr. Camilo Gallegos Domínguez</div>
+                        </div>
+                        <div class="header-fields">
+                            <label>Curso: <input type="text" id="grade2" placeholder="Ej: 10mo 'B'"></label>
+                            <label>Periodo: <input type="text" id="period2" value="2025-2026"></label>
+                            <label>Tutor: <input type="text" id="tutor2" placeholder="Nombre del tutor"></label>
+                        </div>
+                    </div>
+                    
+                    <table class="schedule" id="schedule2">
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Lunes</th>
+                                <th>Martes</th>
+                                <th>Miércoles</th>
+                                <th>Jueves</th>
+                                <th>Viernes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="time-col">07:00 - 07:40</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">07:40 - 08:20</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">08:20 - 09:00</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">09:00 - 09:40</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr class="recess-row">
+                                <td class="time-col">09:40 - 10:10</td>
+                                <td colspan="5">RECESO</td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">10:10 - 10:50</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">10:50 - 11:30</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">11:30 - 12:10</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                            <tr>
+                                <td class="time-col">12:10 - 12:50</td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                                <td class="editable" contenteditable="true"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para guardar todos los datos del horario
+        function saveAllData() {
+            // Guardar datos de los encabezados
+            const grade = document.getElementById('grade').value;
+            const period = document.getElementById('period').value;
+            const tutor = document.getElementById('tutor').value;
+            const grade2 = document.getElementById('grade2').value;
+            const period2 = document.getElementById('period2').value;
+            const tutor2 = document.getElementById('tutor2').value;
+            
+            // Guardar datos de las celdas editables del primer horario
+            const schedule1Cells = document.querySelectorAll('#schedule1 .editable');
+            const schedule1Data = [];
+            schedule1Cells.forEach(cell => {
+                schedule1Data.push(cell.textContent);
+            });
+            
+            // Guardar datos de las celdas editables del segundo horario
+            const schedule2Cells = document.querySelectorAll('#schedule2 .editable');
+            const schedule2Data = [];
+            schedule2Cells.forEach(cell => {
+                schedule2Data.push(cell.textContent);
+            });
+            
+            // Crear objeto con todos los datos
+            const allData = {
+                headers: { grade, period, tutor, grade2, period2, tutor2 },
+                schedule1: schedule1Data,
+                schedule2: schedule2Data
+            };
+            
+            // Guardar en localStorage
+            localStorage.setItem('horarioCompleto', JSON.stringify(allData));
+            alert('Horario guardado correctamente');
+        }
+        
+        // Función para cargar los datos guardados
+        function loadSavedData() {
+            const savedData = localStorage.getItem('horarioCompleto');
+            if (savedData) {
+                const allData = JSON.parse(savedData);
+                
+                // Cargar datos de encabezados
+                document.getElementById('grade').value = allData.headers.grade || '';
+                document.getElementById('period').value = allData.headers.period || '2025-2026';
+                document.getElementById('tutor').value = allData.headers.tutor || '';
+                document.getElementById('grade2').value = allData.headers.grade2 || '';
+                document.getElementById('period2').value = allData.headers.period2 || '2025-2026';
+                document.getElementById('tutor2').value = allData.headers.tutor2 || '';
+                
+                // Cargar datos del primer horario
+                const schedule1Cells = document.querySelectorAll('#schedule1 .editable');
+                schedule1Cells.forEach((cell, index) => {
+                    cell.textContent = allData.schedule1[index] || '';
+                });
+                
+                // Cargar datos del segundo horario
+                const schedule2Cells = document.querySelectorAll('#schedule2 .editable');
+                schedule2Cells.forEach((cell, index) => {
+                    cell.textContent = allData.schedule2[index] || '';
+                });
+                
+                alert('Horario cargado correctamente');
+            } else {
+                alert('No hay horarios guardados');
+            }
+        }
+        
+        function updateHeaders() {
+            const grade = document.getElementById('grade').value;
+            const period = document.getElementById('period').value;
+            const tutor = document.getElementById('tutor').value;
+            
+            // Actualizar segundo horario con los mismos valores
+            document.getElementById('grade2').value = grade;
+            document.getElementById('period2').value = period;
+            document.getElementById('tutor2').value = tutor;
+        }
+        
+        function clearAll() {
+            // Limpiar campos editables
+            document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+                el.textContent = '';
+            });
+            
+            // Limpiar inputs
+            document.getElementById('grade').value = '';
+            document.getElementById('period').value = '2025-2026';
+            document.getElementById('tutor').value = '';
+            document.getElementById('grade2').value = '';
+            document.getElementById('period2').value = '2025-2026';
+            document.getElementById('tutor2').value = '';
+            
+            // Limpiar localStorage
+            localStorage.removeItem('horarioCompleto');
+        }
+        
+        // Cargar datos guardados al iniciar (opcional)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Puedes descomentar esta línea si quieres que se cargue automáticamente al abrir la página
+            // loadSavedData();
+        });
+    </script>
+</body>
+</html>
+
 <body>
     <div class="container">
         <div class="controls no-print">
