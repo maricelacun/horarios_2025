@@ -204,6 +204,8 @@
         <div class="controls no-print">
             <div style="margin-top: 10px;">
                 <button onclick="updateHeaders()">Actualizar</button>
+                <button onclick="saveAllData()">Guardar Horario</button>
+                <button onclick="loadSavedData()">Cargar Horario</button>
                 <button onclick="window.print()">Imprimir/PDF</button>
                 <button onclick="clearAll()">Limpiar</button>
             </div>
@@ -225,7 +227,7 @@
                     </div>
                 </div>
                 
-                <table class="schedule">
+                <table class="schedule" id="schedule1">
                     <thead>
                         <tr>
                             <th>Hora</th>
@@ -323,7 +325,7 @@
                     </div>
                 </div>
                 
-                <table class="schedule">
+                <table class="schedule" id="schedule2">
                     <thead>
                         <tr>
                             <th>Hora</th>
@@ -410,6 +412,71 @@
     </div>
 
     <script>
+        // Función para guardar todos los datos del horario
+        function saveAllData() {
+            // Guardar datos de los encabezados
+            const grade = document.getElementById('grade').value;
+            const period = document.getElementById('period').value;
+            const tutor = document.getElementById('tutor').value;
+            
+            // Guardar datos de las celdas editables del primer horario
+            const schedule1Cells = document.querySelectorAll('#schedule1 .editable');
+            const schedule1Data = [];
+            schedule1Cells.forEach(cell => {
+                schedule1Data.push(cell.textContent);
+            });
+            
+            // Guardar datos de las celdas editables del segundo horario
+            const schedule2Cells = document.querySelectorAll('#schedule2 .editable');
+            const schedule2Data = [];
+            schedule2Cells.forEach(cell => {
+                schedule2Data.push(cell.textContent);
+            });
+            
+            // Crear objeto con todos los datos
+            const allData = {
+                headers: { grade, period, tutor },
+                schedule1: schedule1Data,
+                schedule2: schedule2Data
+            };
+            
+            // Guardar en localStorage
+            localStorage.setItem('horarioCompleto', JSON.stringify(allData));
+            alert('Horario guardado correctamente');
+        }
+        
+        // Función para cargar los datos guardados
+        function loadSavedData() {
+            const savedData = localStorage.getItem('horarioCompleto');
+            if (savedData) {
+                const allData = JSON.parse(savedData);
+                
+                // Cargar datos de encabezados
+                document.getElementById('grade').value = allData.headers.grade || '';
+                document.getElementById('period').value = allData.headers.period || '2025-2026';
+                document.getElementById('tutor').value = allData.headers.tutor || '';
+                document.getElementById('grade2').value = allData.headers.grade || '';
+                document.getElementById('period2').value = allData.headers.period || '2025-2026';
+                document.getElementById('tutor2').value = allData.headers.tutor || '';
+                
+                // Cargar datos del primer horario
+                const schedule1Cells = document.querySelectorAll('#schedule1 .editable');
+                schedule1Cells.forEach((cell, index) => {
+                    cell.textContent = allData.schedule1[index] || '';
+                });
+                
+                // Cargar datos del segundo horario
+                const schedule2Cells = document.querySelectorAll('#schedule2 .editable');
+                schedule2Cells.forEach((cell, index) => {
+                    cell.textContent = allData.schedule2[index] || '';
+                });
+                
+                alert('Horario cargado correctamente');
+            } else {
+                alert('No hay horarios guardados');
+            }
+        }
+        
         function updateHeaders() {
             const grade = document.getElementById('grade').value;
             const period = document.getElementById('period').value;
@@ -419,11 +486,6 @@
             document.getElementById('grade2').value = grade;
             document.getElementById('period2').value = period;
             document.getElementById('tutor2').value = tutor;
-            
-            // Guardar en localStorage
-            localStorage.setItem('horarioData', JSON.stringify({
-                grade, period, tutor
-            }));
         }
         
         function clearAll() {
@@ -441,21 +503,13 @@
             document.getElementById('tutor2').value = '';
             
             // Limpiar localStorage
-            localStorage.removeItem('horarioData');
+            localStorage.removeItem('horarioCompleto');
         }
         
-        // Cargar datos guardados al iniciar
+        // Cargar datos guardados al iniciar (opcional)
         document.addEventListener('DOMContentLoaded', function() {
-            const savedData = localStorage.getItem('horarioData');
-            if (savedData) {
-                const { grade, period, tutor } = JSON.parse(savedData);
-                document.getElementById('grade').value = grade || '';
-                document.getElementById('period').value = period || '2025-2026';
-                document.getElementById('tutor').value = tutor || '';
-                document.getElementById('grade2').value = grade || '';
-                document.getElementById('period2').value = period || '2025-2026';
-                document.getElementById('tutor2').value = tutor || '';
-            }
+            // Puedes descomentar esta línea si quieres que se cargue automáticamente al abrir la página
+            // loadSavedData();
         });
     </script>
 </body>
