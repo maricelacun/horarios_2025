@@ -243,58 +243,57 @@
                 </div>
             </div>
             
-            <!-- Docentes -->
-            <div class="menu-card">
-    <div class="card-header" style="background-color: #9b59b6;">
-        Docentes
-    </div>
-    <div class="card-body">
-                <a href="BT_M.html">Lista Completa de Docentes</a>
-                <ul class="docentes-list">
-                    <li>ALBURQUEQUE NOLES ROGER FELIPE</li>
-                    <li>AGUILAR BUSTAMANTE PETTER YASMANY</li>
-                    <li>ALEJANDRO TORRES GALO ANTONIO</li>
-                    <a href="BT_M.html">Lista Completa de Docentes</a>
-                    <li>CALLE SALVATIERRA ROCIO LOURDES</li>
-                    <a href="BT_M.html">Lista Completa de Docentes</a>
-                    <li>CASTILLO CAÑARTE CLAUDIA KATHERINE</li>
-                    <li>CASTRO CASTILLO PRISCILA VERENISSE</li>
-                    <li>CHERREZ MORAN MARCIA ELVIA</li>
-                    <li>CORREA PORRAS DEYNICITA ISABEL</li>
-                    <li>CUMBICUS VALLEJO ANDREA ALEXANDRA</li>
-                    <li>CUN ALDEAN DANIELA ELIZABETH</li>
-                    <li>CUN RUEDA MARICELA DE JESUS</li>
-                    <li>ESPINOZA CACERES FANNY HERLINDA</li>
-                    <li>GARCIA SARITAMA JUAN CARLOS</li>
-                    <li>GUERRERO CONTENTO MARITZA ANABEL</li>
-                    <li>MACHUCA BENITES JUNNYS ALEXANDRA</li>
-                    <li>MIRO CUN MARJORIE ELIZABETH</li>
-                    <li>MORA GONZALEZ YARITZA XIMENA</li>
-                    <li>MORALES GONZALEZ OSCAR MANUEL</li>
-                    <li>OCAMPO RIOFRIO ANA LUISA</li>
-                    <li>OLAYA BONIFAZ CAROLAY DEL CISNE</li>
-                    <li>RIGCHAC BETUN MARIA</li>
-                    <li>ROJAS LIMA MELANIA DEL CISNE</li>
-                    <li>ROMERO JUMBO HERMAN ARTURO</li>
-                    <li>SANCHEZ LOPEZ NARCISA MAGDALENA</li>
-                    <li>SANCHEZ RIVERA RENAN OLMEDO</li>
-                    <li>SANCHEZ TORO JENNY ELIZABETH</li>
-                    <li>SANTOS PEÑALOZA MARIANITA DE JESUS</li>
-                    <li>TOCTO CEDILLO VANESSA JEANELLE</li>
-                    <li>TOLEDO GONZALEZ DARWING ALEXANDER</li>
-                    <li>UNUZUNGO PRECIADO LORENA DE LOURDES</li>
-                    <li>VACA VALLE EVELYN ESTEFANIA</li>
-                    <li>VALAREZO GONZALEZ EDWIN ALBERTO</li>
-                    <li>VELEPUCHA GUAMAN JENNY DOLORES</li>
-                    <li>VILELA HONORES DIANA MARICELA</li>
-                    <li>YAGUANA PEÑA DOLORES MARIA</li>
-                    <li>ZHINGRE PADILLA PATRICIA JACKELINE</li>
-                    <li>ZHINGRE ROJAS JOSE NORBERTO</li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+            <style>
+    .docentes-list, .submenu {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .submenu {
+        display: none;
+        margin-left: 20px;
+    }
+
+    .docente-item {
+        cursor: pointer;
+        margin: 5px 0;
+    }
+
+    .submenu a {
+        display: block;
+        padding: 2px 0;
+        color: blue;
+        text-decoration: none;
+    }
+
+    .submenu a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="card-body">
+    <h3>Docentes</h3>
+    <ul class="docentes-list">
+        <li class="docente-item" onclick="toggleSubmenu(this)">
+            ALBURQUEQUE NOLES ROGER FELIPE
+            <ul class="submenu">
+                <li><a href="BT_M.html">Matutina</a></li>
+                <li><a href="BT_V.html">Vespertina</a></li>
+            </ul>
+        </li>
+        
+        <li class="docente-item" onclick="toggleSubmenu(this)">
+            AGUILAR BUSTAMANTE PETTER YASMANY
+            <ul class="submenu">
+                <li><a href="BT_M.html">Matutina</a></li>
+                <li><a href="BT_V.html">Vespertina</a></li>
+            </ul>
+        </li>
+
+        <!-- Puedes seguir con los demás docentes usando el mismo formato -->
+    </ul>
 </div>
+
     
     <footer>
         <p>© 2023 Unidad Educativa Dr. Camilo Gallegos Domínguez - Todos los derechos reservados</p>
