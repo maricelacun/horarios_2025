@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horarios Escolares A4 - Matutino</title>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
     <style>
         /* Estilos generales */
         body {
@@ -14,7 +15,6 @@
         }
 
         @page {
-            
             size: A4;
             margin-top: 2cm;
             margin-bottom: 3cm;
@@ -51,7 +51,9 @@
             }
 
             .save-btn { background: #4CAF50; }
-            .print-btn { background: #2196F3; }
+            /* Style for the new Excel button */
+            .excel-btn { background: #1D6F42; } /* Green variant for Excel */
+            .print-btn { background: #2196F3; } /* Keep original print style if needed elsewhere, or remove */
             .delete-btn { background: #f44336; }
             .load-btn { background: #FF9800; }
 
@@ -74,6 +76,10 @@
 
             .schedule-page {
                 height: 100%;
+            }
+            /* Hide Excel button during print */
+            .excel-btn {
+                display: none !important;
             }
         }
 
@@ -196,7 +202,8 @@
         .header-content {
             display: inline-block;
             text-align: center;
-            width: calc(100% - 2cm);
+            /* Adjust width calculation if logo presence changes */
+            width: calc(100% - 2cm); /* Assuming logo width might impact this */
         }
 
         /* Lista de horarios guardados */
@@ -240,23 +247,24 @@
 <body>
     <div class="container">
         <div class="controls no-print">
-            <button onclick="saveCurrentSchedule()">Guardar Horario Actual</button>
-            <button onclick="window.print()">Imprimir/PDF</button>
+            <button onclick="saveCurrentSchedule()" class="save-btn">Guardar Horario Actual</button>
+            <button onclick="exportToExcel()" class="excel-btn">Descargar Excel</button>
             <button onclick="clearEditor()" class="delete-btn">Limpiar Editor</button>
              </div>
 
         <div class="schedule-page">
             <div class="schedule-container" id="schedule1-container">
                 <div class="header-info">
-                    <img src="sello.jpg" alt="Sello" class="logo logo-left" onerror="this.style.display='none'"> <div class="header-content">
+                    <img src="sello.jpg" alt="Sello" class="logo logo-left" onerror="this.style.display='none'">
+                    <div class="header-content">
                         <div class="school-name">Unidad Educativa Dr. Camilo Gallegos Domínguez</div>
                     </div>
                     <div class="header-fields">
                         <label>Curso: <input type="text" id="grade1" placeholder="Ej: 10mo 'A'"></label>
-                        <label>Periodo: <input type="text" id="period1" value="2025-2026"></label> <label>Tutora: <input type="text" id="tutor1" placeholder="Nombre del tutor/a"></label>
+                        <label>Periodo: <input type="text" id="period1" value="2025-2026"></label>
+                        <label>Tutora: <input type="text" id="tutor1" placeholder="Nombre del tutor/a"></label>
                     </div>
                 </div>
-
                 <table class="schedule" id="scheduleTable1">
                     <thead>
                         <tr>
@@ -272,7 +280,7 @@
                         <tr><td class="time-col">07:00-07:45</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                         <tr><td class="time-col">07:45-08:30</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                         <tr><td class="time-col">08:30-09:15</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
-                         <tr class="recess-row"><td class="time-col">09:15-09:45</td><td colspan="5">RECESO</td></tr>
+                        <tr class="recess-row"><td class="time-col">09:15-09:45</td><td colspan="5">RECESO</td></tr>
                         <tr><td class="time-col">09:45-10:30</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                         <tr><td class="time-col">10:30-11:15</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                         <tr><td class="time-col">11:15-12:00</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
@@ -282,7 +290,8 @@
 
             <div class="schedule-container" id="schedule2-container">
                  <div class="header-info">
-                    <img src="sello.jpg" alt="Sello" class="logo logo-left" onerror="this.style.display='none'"> <div class="header-content">
+                    <img src="sello.jpg" alt="Sello" class="logo logo-left" onerror="this.style.display='none'">
+                    <div class="header-content">
                         <div class="school-name">Unidad Educativa Dr. Camilo Gallegos Domínguez</div>
                     </div>
                     <div class="header-fields">
@@ -291,7 +300,6 @@
                         <label>Tutora: <input type="text" id="tutor2" placeholder="Nombre del tutor/a"></label>
                     </div>
                 </div>
-
                 <table class="schedule" id="scheduleTable2">
                      <thead>
                         <tr>
@@ -303,11 +311,11 @@
                             <th>Viernes</th>
                         </tr>
                     </thead>
-                     <tbody>
-                       <tr><td class="time-col">07:00-07:45</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
+                    <tbody>
+                        <tr><td class="time-col">07:00-07:45</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                         <tr><td class="time-col">07:45-08:30</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                         <tr><td class="time-col">08:30-09:15</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
-                         <tr class="recess-row"><td class="time-col">09:15-09:45</td><td colspan="5">RECESO</td></tr>
+                        <tr class="recess-row"><td class="time-col">09:15-09:45</td><td colspan="5">RECESO</td></tr>
                         <tr><td class="time-col">09:45-10:30</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                         <tr><td class="time-col">10:30-11:15</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
                         <tr><td class="time-col">11:15-12:00</td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td><td class="editable" contenteditable="true"></td></tr>
@@ -322,7 +330,9 @@
                 </div>
         </div>
 
-    </div> <script>
+    </div>
+
+    <script>
         const STORAGE_KEY = 'schoolSchedulesApp_savedData';
 
         // --- Funciones de Utilidad para localStorage ---
@@ -341,7 +351,8 @@
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(schedules));
             } catch (e) {
                  console.error("Error saving to localStorage:", e);
-                 alert("Error al guardar. Es posible que el almacenamiento esté lleno.");
+                 // Use a more user-friendly message box instead of alert
+                 showCustomAlert("Error al guardar. Es posible que el almacenamiento esté lleno.");
             }
         }
 
@@ -354,17 +365,17 @@
              const tutor = document.getElementById(`tutor${scheduleIndex}`).value.trim();
 
              const cells = [];
-             // Seleccionar celdas editables SOLO dentro del contenedor específico
-            document.querySelectorAll(`${containerId} .editable[contenteditable="true"]`).forEach(cell => {
-                 cells.push(cell.innerHTML); // Usar innerHTML para conservar posibles formatos simples (negrita, etc.) aunque no se recomienda editar mucho formato
+             // Select editable cells ONLY within the specific container
+             document.querySelectorAll(`${containerId} .editable[contenteditable="true"]`).forEach(cell => {
+                 // Use innerText to get plain text content, suitable for Excel
+                 cells.push(cell.innerText.trim());
              });
 
-            // Generar un nombre descriptivo
+            // Generate a descriptive name
             let name = `Horario ${scheduleIndex}`;
-             if (grade) name = grade;
-             if (tutor) name += ` - ${tutor}`;
-             if (!grade && !tutor) name = `Horario sin título ${new Date().toLocaleTimeString()}`;
-
+            if (grade) name = grade;
+            if (tutor) name += ` - ${tutor}`;
+            if (!grade && !tutor) name = `Horario sin título ${new Date().toLocaleTimeString()}`;
 
              return { grade, period, tutor, cells, name };
         }
@@ -373,11 +384,11 @@
             const schedule1Data = getScheduleDataFromDOM(1);
             const schedule2Data = getScheduleDataFromDOM(2);
 
-            // Usar el nombre del primer horario como identificador principal si está disponible
+            // Use the name of the first schedule as the main identifier if available
             const combinedName = schedule1Data.grade || `Horario Doble ${new Date().toLocaleDateString()}`;
 
             const newScheduleEntry = {
-                id: `schedule_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`, // ID único
+                id: `schedule_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`, // Unique ID
                 name: combinedName,
                 schedule1: schedule1Data,
                 schedule2: schedule2Data,
@@ -387,8 +398,8 @@
             const schedules = getSavedSchedules();
             schedules.push(newScheduleEntry);
             saveSchedulesToStorage(schedules);
-            displaySavedSchedules(); // Actualizar la lista visual
-            alert(`Horario "${combinedName}" guardado.`);
+            displaySavedSchedules(); // Update visual list
+            showCustomAlert(`Horario "${combinedName}" guardado.`);
         }
 
         function loadSchedule(scheduleId) {
@@ -396,120 +407,255 @@
             const scheduleToLoad = schedules.find(s => s.id === scheduleId);
 
             if (!scheduleToLoad) {
-                alert("Error: No se encontró el horario para cargar.");
+                showCustomAlert("Error: No se encontró el horario para cargar.");
                 return;
             }
 
-            // Cargar datos del Horario 1
+            // Load data for Schedule 1
             document.getElementById('grade1').value = scheduleToLoad.schedule1.grade;
             document.getElementById('period1').value = scheduleToLoad.schedule1.period;
             document.getElementById('tutor1').value = scheduleToLoad.schedule1.tutor;
-             const cells1 = document.querySelectorAll('#schedule1-container .editable[contenteditable="true"]');
-             cells1.forEach((cell, index) => {
-                 cell.innerHTML = scheduleToLoad.schedule1.cells[index] || '';
-             });
+            const cells1 = document.querySelectorAll('#schedule1-container .editable[contenteditable="true"]');
+            cells1.forEach((cell, index) => {
+                // Set innerText when loading plain text data
+                cell.innerText = scheduleToLoad.schedule1.cells[index] || '';
+            });
 
-             // Cargar datos del Horario 2
+             // Load data for Schedule 2
             document.getElementById('grade2').value = scheduleToLoad.schedule2.grade;
             document.getElementById('period2').value = scheduleToLoad.schedule2.period;
             document.getElementById('tutor2').value = scheduleToLoad.schedule2.tutor;
             const cells2 = document.querySelectorAll('#schedule2-container .editable[contenteditable="true"]');
-             cells2.forEach((cell, index) => {
-                 cell.innerHTML = scheduleToLoad.schedule2.cells[index] || '';
-             });
+            cells2.forEach((cell, index) => {
+                 // Set innerText when loading plain text data
+                cell.innerText = scheduleToLoad.schedule2.cells[index] || '';
+            });
 
-            alert(`Horario "${scheduleToLoad.name}" cargado en el editor.`);
+            showCustomAlert(`Horario "${scheduleToLoad.name}" cargado en el editor.`);
         }
 
         function deleteSchedule(scheduleId) {
              const schedules = getSavedSchedules();
              const scheduleToDelete = schedules.find(s => s.id === scheduleId);
 
-            if (!scheduleToDelete) {
-                alert("Error: No se encontró el horario para eliminar.");
-                return;
-            }
+             if (!scheduleToDelete) {
+                 showCustomAlert("Error: No se encontró el horario para eliminar.");
+                 return;
+             }
 
-            if (confirm(`¿Estás seguro de que quieres eliminar el horario "${scheduleToDelete.name}"? Esta acción no se puede deshacer.`)) {
-                const updatedSchedules = schedules.filter(s => s.id !== scheduleId);
-                saveSchedulesToStorage(updatedSchedules);
-                displaySavedSchedules(); // Actualizar la lista visual
-                alert(`Horario "${scheduleToDelete.name}" eliminado.`);
-            }
+             // Use a custom confirmation dialog if available, otherwise fallback to confirm
+             if (confirm(`¿Estás seguro de que quieres eliminar el horario "${scheduleToDelete.name}"? Esta acción no se puede deshacer.`)) {
+                 const updatedSchedules = schedules.filter(s => s.id !== scheduleId);
+                 saveSchedulesToStorage(updatedSchedules);
+                 displaySavedSchedules(); // Update visual list
+                 showCustomAlert(`Horario "${scheduleToDelete.name}" eliminado.`);
+             }
         }
 
         function displaySavedSchedules() {
             const listContainer = document.getElementById('savedSchedulesList');
-            listContainer.innerHTML = ''; // Limpiar lista actual
+            listContainer.innerHTML = ''; // Clear current list
             const schedules = getSavedSchedules();
 
              if (schedules.length === 0) {
                  listContainer.innerHTML = '<p style="text-align:center; color: #6c757d;">No hay horarios guardados.</p>';
                  return;
-            }
+             }
 
-            // Ordenar por fecha de guardado (más reciente primero)
+            // Sort by save date (most recent first)
             schedules.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
-
 
             schedules.forEach(schedule => {
                 const div = document.createElement('div');
 
-                 const nameSpan = document.createElement('span');
-                 nameSpan.textContent = `${schedule.name} (Guardado: ${new Date(schedule.savedAt).toLocaleString()})`;
-                 div.appendChild(nameSpan);
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = `${schedule.name} (Guardado: ${new Date(schedule.savedAt).toLocaleString()})`;
+                div.appendChild(nameSpan);
 
-                 const buttonGroup = document.createElement('div');
-                 buttonGroup.style.whiteSpace = 'nowrap'; // Evitar que los botones se rompan en líneas separadas
+                const buttonGroup = document.createElement('div');
+                buttonGroup.style.whiteSpace = 'nowrap'; // Prevent buttons from wrapping
 
                 const loadBtn = document.createElement('button');
                 loadBtn.textContent = 'Cargar';
-                 loadBtn.className = 'load-btn'; // Clase para estilo
+                loadBtn.className = 'load-btn'; // Class for styling
                 loadBtn.onclick = () => loadSchedule(schedule.id);
                 buttonGroup.appendChild(loadBtn);
 
                 const deleteBtn = document.createElement('button');
                 deleteBtn.textContent = 'Eliminar';
-                 deleteBtn.className = 'delete-btn'; // Clase para estilo
+                deleteBtn.className = 'delete-btn'; // Class for styling
                 deleteBtn.onclick = () => deleteSchedule(schedule.id);
                 buttonGroup.appendChild(deleteBtn);
 
-                 div.appendChild(buttonGroup);
-
+                div.appendChild(buttonGroup);
                 listContainer.appendChild(div);
             });
         }
 
         function clearEditor() {
-            // Limpiar inputs de cabecera
+            // Clear header inputs
             document.getElementById('grade1').value = '';
-            // document.getElementById('period1').value = '2025-2026'; // Resetear a valor por defecto o dejar en blanco? Dejemos en blanco.
-            document.getElementById('period1').value = '';
+            document.getElementById('period1').value = ''; // Clear period as well
             document.getElementById('tutor1').value = '';
             document.getElementById('grade2').value = '';
-            // document.getElementById('period2').value = '2025-2026';
-            document.getElementById('period2').value = '';
+            document.getElementById('period2').value = ''; // Clear period as well
             document.getElementById('tutor2').value = '';
 
-            // Limpiar celdas editables de ambas tablas
+            // Clear editable cells in both tables
              document.querySelectorAll('.editable[contenteditable="true"]').forEach(el => {
-                el.innerHTML = ''; // Usar innerHTML para limpiar
-            });
+                 el.innerText = ''; // Use innerText to clear
+             });
 
-             alert("Editor limpiado. Los horarios guardados permanecen.");
+             showCustomAlert("Editor limpiado. Los horarios guardados permanecen.");
         }
 
+        // --- NEW FUNCTION: Export to Excel ---
+        function exportToExcel() {
+            console.log("Exporting to Excel..."); // Debug log
 
-        // --- Inicialización ---
+            // Helper function to extract data from a table and its headers
+            const getTableDataForExcel = (tableId, gradeId, periodId, tutorId) => {
+                const table = document.getElementById(tableId);
+                const grade = document.getElementById(gradeId).value.trim();
+                const period = document.getElementById(periodId).value.trim();
+                const tutor = document.getElementById(tutorId).value.trim();
+                const data = [];
+
+                // Add header information
+                data.push(["Curso:", grade]);
+                data.push(["Periodo:", period]);
+                data.push(["Tutora:", tutor]);
+                data.push([]); // Add an empty row for spacing
+
+                // Extract table headers (thead)
+                const headerRow = [];
+                table.querySelectorAll('thead th').forEach(th => {
+                    headerRow.push(th.innerText.trim());
+                });
+                data.push(headerRow);
+
+                // Extract table body data (tbody)
+                table.querySelectorAll('tbody tr').forEach(tr => {
+                    const rowData = [];
+                    // Check if it's the recess row
+                    if (tr.classList.contains('recess-row')) {
+                        const timeCell = tr.querySelector('.time-col');
+                        const recessCell = tr.querySelector('td[colspan="5"]');
+                        rowData.push(timeCell ? timeCell.innerText.trim() : ''); // Time
+                        rowData.push(recessCell ? recessCell.innerText.trim() : 'RECESO'); // Recess text in the first day column
+                        // Add empty strings for the remaining columns spanned by recess
+                        for (let i = 0; i < 4; i++) {
+                            rowData.push('');
+                        }
+                    } else {
+                        // Regular row
+                        tr.querySelectorAll('td').forEach(td => {
+                            // Use innerText to get plain text from contenteditable cells
+                            rowData.push(td.innerText.trim());
+                        });
+                    }
+                    data.push(rowData);
+                });
+                console.log(`Data extracted for ${tableId}:`, data); // Debug log
+                return data;
+            };
+
+            try {
+                // Get data for both schedules
+                const data1 = getTableDataForExcel('scheduleTable1', 'grade1', 'period1', 'tutor1');
+                const data2 = getTableDataForExcel('scheduleTable2', 'grade2', 'period2', 'tutor2');
+
+                // Create worksheets
+                const ws1 = XLSX.utils.aoa_to_sheet(data1);
+                const ws2 = XLSX.utils.aoa_to_sheet(data2);
+                 console.log("Worksheets created."); // Debug log
+
+                // --- Optional: Adjust column widths ---
+                // Example: Set first column width for both sheets
+                const colWidth = { wch: 15 }; // 15 characters wide
+                 ws1['!cols'] = [colWidth, colWidth, colWidth, colWidth, colWidth, colWidth]; // Apply to all 6 columns
+                 ws2['!cols'] = [colWidth, colWidth, colWidth, colWidth, colWidth, colWidth];
+
+                // Create a new workbook
+                const wb = XLSX.utils.book_new();
+
+                // Determine sheet names (use Grade if available, else default)
+                const sheetName1 = document.getElementById('grade1').value.trim() || 'Horario 1';
+                const sheetName2 = document.getElementById('grade2').value.trim() || 'Horario 2';
+
+                // Add worksheets to the workbook
+                XLSX.utils.book_append_sheet(wb, ws1, sheetName1);
+                XLSX.utils.book_append_sheet(wb, ws2, sheetName2);
+                console.log("Workbook created with sheets:", sheetName1, sheetName2); // Debug log
+
+                // Generate filename
+                const filename = `Horarios_${sheetName1}_${sheetName2}.xlsx`.replace(/[^a-z0-9_.-]/gi, '_'); // Sanitize filename
+
+                // Write the workbook and trigger download
+                XLSX.writeFile(wb, filename);
+                 console.log("Excel file download triggered:", filename); // Debug log
+
+            } catch (error) {
+                console.error("Error generating Excel file:", error);
+                showCustomAlert("Error al generar el archivo Excel. Verifique la consola para más detalles.");
+            }
+        }
+
+       // --- Simple Custom Alert (Optional: Replaces ugly default alerts) ---
+       function showCustomAlert(message) {
+           // You can replace this with a more sophisticated modal/dialog library if needed
+           console.info("Alert:", message); // Log for debugging
+           alert(message); // Fallback to standard alert
+           // Example of a simple custom overlay alert (basic implementation):
+           /*
+           let alertBox = document.getElementById('customAlertBox');
+           if (!alertBox) {
+               alertBox = document.createElement('div');
+               alertBox.id = 'customAlertBox';
+               alertBox.style.position = 'fixed';
+               alertBox.style.top = '20px';
+               alertBox.style.left = '50%';
+               alertBox.style.transform = 'translateX(-50%)';
+               alertBox.style.padding = '15px 20px';
+               alertBox.style.background = '#333';
+               alertBox.style.color = 'white';
+               alertBox.style.borderRadius = '5px';
+               alertBox.style.zIndex = '10000';
+               alertBox.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+               alertBox.style.textAlign = 'center';
+               alertBox.style.opacity = '0';
+               alertBox.style.transition = 'opacity 0.5s ease-in-out';
+               document.body.appendChild(alertBox);
+
+               alertBox.onclick = () => { // Click to dismiss
+                   alertBox.style.opacity = '0';
+                   setTimeout(() => { if(alertBox.parentNode) alertBox.parentNode.removeChild(alertBox); }, 500);
+               };
+           }
+           alertBox.textContent = message;
+           alertBox.style.opacity = '1'; // Show
+
+           // Auto-dismiss after a few seconds
+           setTimeout(() => {
+               if (alertBox && alertBox.style.opacity === '1') {
+                  alertBox.style.opacity = '0';
+                  setTimeout(() => { if(alertBox.parentNode) alertBox.parentNode.removeChild(alertBox); }, 500);
+               }
+           }, 4000); // Hide after 4 seconds
+           */
+       }
+
+
+        // --- Initialization ---
         document.addEventListener('DOMContentLoaded', function() {
-            // Mostrar la lista de horarios guardados al cargar la página
+            // Display the list of saved schedules when the page loads
             displaySavedSchedules();
 
-             // Opcional: Cargar el último horario guardado automáticamente en el editor?
-             // const schedules = getSavedSchedules();
-             // if (schedules.length > 0) {
-             //    loadSchedule(schedules[0].id); // Carga el más reciente si la lista está ordenada
-             //}
+            // Optional: Automatically load the last saved schedule into the editor?
+            // const schedules = getSavedSchedules();
+            // if (schedules.length > 0) {
+            //    loadSchedule(schedules[0].id); // Loads the most recent if the list is sorted
+            //}
         });
 
     </script>
